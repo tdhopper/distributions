@@ -193,14 +193,13 @@ class Sampler(object):
         """
         Draw samples from the marginal posteriors of mu and sigmasq
 
-        \cite{murphy2007conjugate}, Eqs. 156 & 167
+        \cite{murphy2007conjugate}, Eqs. 17, 20, 24
         """
         post = shared if group is None else shared.plus_group(group)
         self.mu = sample_normal(post.mu, np.sqrt(post.sigmasq))
-        self.sigma = np.sqrt(shared.component_sigmasq)
 
     def eval(self, shared):
-        return sample_normal(self.mu, self.sigma)
+        return sample_normal(self.mu, np.sqrt(shared.component_sigmasq))
 
 
 def sample_group(shared, size):
