@@ -44,7 +44,7 @@ from distributions.mixins import SharedMixin, GroupIoMixin, SharedIoMixin
 NAME = 'NormalNormal'
 EXAMPLES = [
     {
-        'shared': {'mu': 0., 'sigmasq': 1.},
+        'shared': {'mu': 0., 'sigmasq': 1., 'component_sigmasq': 1.},
         'values': [-4.0, -2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0, 4.0],
     },
 ]
@@ -77,23 +77,20 @@ class Shared(SharedMixin, SharedIoMixin):
     def dump(self):
         return {
             'mu': self.mu,
-            'kappa': self.kappa,
             'sigmasq': self.sigmasq,
-            'nu': self.nu,
+            'component_sigmasq': self.component_sigmasq,
         }
 
     def protobuf_load(self, message):
         self.mu = float(message.mu)
-        self.kappa = float(message.kappa)
         self.sigmasq = float(message.sigmasq)
-        self.nu = float(message.nu)
+        self.component_sigmasq = float(message.component_sigmasq)
 
     def protobuf_dump(self, message):
         message.Clear()
         message.mu = self.mu
-        message.kappa = self.kappa
         message.sigmasq = self.sigmasq
-        message.nu = self.nu
+        message.component_sigmasq = self.component_sigmasq
 
 
 class Group(GroupIoMixin):
@@ -122,7 +119,7 @@ class Group(GroupIoMixin):
     def remove_value(self, shared, value):
         total = self.mean * self.count
         self.count -= 1
-        self.sumsquares -= value
+        self.sumsquares -= value**2
         if self.count == 0:
             self.mean = 0.
         else:
