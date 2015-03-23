@@ -142,6 +142,20 @@ message NormalInverseChiSq {
   }
 }
 
+message NormalNormal {
+  message Shared {
+    required float mu = 1;
+    required float sigmasq = 2;
+    required float component_sigmasq = 3;
+  }
+
+  message Group {
+    required uint64 count = 1;
+    required float mean = 2;
+    required float sumsquares = 3;
+  }
+}
+
 message NormalInverseWishart {
   message Shared {
     repeated float mu = 1;
