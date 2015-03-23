@@ -38,6 +38,7 @@ import numpy as np
 
 from scipy.stats import norm
 
+from distributions.dbg.random import sample_normal
 from distributions.mixins import SharedMixin, GroupIoMixin, SharedIoMixin
 
 NAME = 'NormalNormal'
